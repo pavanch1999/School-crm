@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 const ClassSchema = new mongoose.Schema({
-  name: String,
+  className: { type: String, required: true }, 
   year: Number,
   teacher: mongoose.Schema.Types.ObjectId,
   studentFees: Number,

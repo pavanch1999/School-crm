@@ -1,15 +1,27 @@
 import express from 'express';
 import Teacher from '../models/Teacher.js';
 const router = express.Router();
-router.post('/', async (req, res) => {
+router.post("/", async (req, res) => {
   try {
-    const teacher = new Teacher(req.body);
-    await teacher.save();
-    res.status(201).json(teacher);
+    const { name, gender, dob, contact, salary, subject, assignedClass } = req.body;
+    
+    const newTeacher = new Teacher({
+      name,
+      gender,
+      dob,
+      contact,
+      salary,
+      subject,
+      assignedClass
+    });
+
+    await newTeacher.save();
+    res.status(201).json(newTeacher);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Error creating teacher", error });
   }
 });
+
 router.get('/', async (req, res) => {
   try {
     const teachers = await Teacher.find();

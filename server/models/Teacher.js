@@ -1,10 +1,14 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+
 const TeacherSchema = new mongoose.Schema({
   name: String,
   gender: String,
   dob: Date,
   contact: String,
   salary: Number,
-  assignedClass: mongoose.Schema.Types.ObjectId
+  subject: String,
+  assignedClass: { type: mongoose.Schema.Types.ObjectId, ref: "Class" }  // ✅ Reference to Class
 });
-export default mongoose.model('Teacher', TeacherSchema);
+
+const Teacher = mongoose.model("Teacher", TeacherSchema);
+export default Teacher;

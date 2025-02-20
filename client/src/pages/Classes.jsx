@@ -11,7 +11,8 @@ function Classes() {
   useEffect(() => {
     fetch('http://localhost:5000/api/teachers')
       .then(res => res.json())
-      .then(data => setTeacherList(data.map(teacher => ({ value: teacher._id, label: teacher.name }))));
+      .then(data => setTeacherList(data.map(teacher => ({ value: teacher._id, label: teacher.name }))))
+      .catch(err => console.error("Error fetching teachers:", err));
   }, []);
 
   // Fetch classes
@@ -23,11 +24,22 @@ function Classes() {
   }, []);
 
   const fields = [
-    { name: 'className', label: 'Class Name', required: true },
+    { name: 'name', label: 'Class Name', required: true }, // Fixed field name
     { name: 'year', label: 'Year', type: 'number', required: true },
-    { name: 'teacher', label: 'Teacher', type: 'text', required: true }, // Can be updated to select later
+    { 
+      name: 'teacher', 
+      label: 'Teacher', 
+      type: 'select', 
+      options: teacherList, // ✅ Dropdown for teacher selection
+      required: true 
+    }, 
     { name: 'studentFees', label: 'Student Fees', type: 'number', required: true },
-    { name: 'studentList', label: 'Student List', type: 'textarea', required: false }
+    { 
+      name: 'studentList', 
+      label: 'Student List', 
+      type: 'text', // ✅ Convert array to comma-separated string
+      required: false 
+    }
   ];
 
   const handleSubmit = (data) => {
@@ -57,11 +69,15 @@ function Classes() {
   };
 
   const columns = [
-    { key: 'className', label: 'Class Name' },
+    { key: 'name', label: 'Class Name' }, // ✅ Fixed column mapping
     { key: 'year', label: 'Year' },
     { key: 'teacher', label: 'Teacher' },
     { key: 'studentFees', label: 'Student Fees' },
-    { key: 'studentList', label: 'Student List' }
+    { 
+      key: 'studentList', 
+      label: 'Student List', 
+      render: (cls) => cls.studentList?.join(', ') || '-' // ✅ Display list properly
+    }
   ];
 
   return (
@@ -78,7 +94,11 @@ function Classes() {
         </div>
       )}
       
-      <Table columns={columns} data={classes} onDelete={handleDelete} />
+      <Table 
+        columns={columns} 
+        data={classes} 
+        onDelete={handleDelete} 
+      />
     </div>
   );
 }

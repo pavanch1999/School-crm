@@ -17,10 +17,20 @@ function Teachers() {
 
   // Fetch classes
   useEffect(() => {
-    fetch('http://localhost:5000/api/classes')
-      .then(res => res.json())
-      .then(data => setClassList(data.map(cls => ({ value: cls._id, label: cls.className }))));
+    fetch("http://localhost:5000/api/classes")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Fetched classes:", data);  // ✅ Debugging step
+        setClassList(
+          data.map((cls) => ({
+            value: cls._id,  // Ensure _id is assigned correctly
+            label: cls.className || "Unnamed Class"  // ✅ Ensure className is used
+          }))
+        );
+      })
+      .catch((err) => console.error("Error fetching classes:", err));
   }, []);
+  
 
   const fields = [
     { name: 'name', label: 'Name', required: true },
