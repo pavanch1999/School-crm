@@ -18,4 +18,13 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+router.get('/:name', async (req, res) => {
+  try {
+    const teacher = await Teacher.findOne({ name: req.params.name });
+    if (!teacher) return res.status(404).json({ message: "Teacher not found" });
+    res.json(teacher);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 export default router;
