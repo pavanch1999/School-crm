@@ -1,0 +1,7 @@
+exclude:
+  - node_modules
+  - server
+  - package.json
+  - package-lock.json
+  - yarn.lock
+  - README.md
