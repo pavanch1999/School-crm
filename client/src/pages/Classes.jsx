@@ -21,7 +21,9 @@ function Classes() {
   useEffect(() => {
     fetch("http://localhost:5000/api/classes")
       .then((res) => res.json())
-      .then((data) => setClasses(data))
+      .then((data) => {
+        console.log("Fetched classes:", data);
+        setClasses(data)})
       .catch((err) => console.error("Error fetching classes:", err));
   }, []);
 
