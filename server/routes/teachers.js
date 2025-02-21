@@ -1,5 +1,6 @@
 import express from 'express';
 import Teacher from '../models/Teacher.js';
+import mongoose from 'mongoose';
 const router = express.Router();
 router.post("/", async (req, res) => {
   try {
@@ -39,4 +40,21 @@ router.get('/:name', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+router.delete('/teachers/:id', async (req, res) => {
+  try {
+      const { id } = req.params;
+      console.log("Deleting teacher with ID:", id);  
+      const objectId = new mongoose.Types.ObjectId(id);
+      const deletedTeacher = await Teacher.findByIdAndDelete(id);
+
+      if (!deletedTeacher) {
+          return res.status(404).json({ message: "Teacher not found" });
+      }
+
+      res.json({ message: "Teacher deleted successfully" });
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+});
+
 export default router;

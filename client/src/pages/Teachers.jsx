@@ -82,11 +82,26 @@ function Teachers() {
       .catch(error => console.error("Error adding teacher:", error));
   };
 
-  const handleDelete = (id) => {
-    fetch(`http://localhost:5000/api/teachers/${id}`, { method: 'DELETE' })
-      .then(() => setTeachers(prev => prev.filter(teacher => teacher._id !== id)))
-      .catch(err => console.error("Error deleting teacher:", err));
-  };
+  const handleDelete = async (teacherId) => {
+    console.log("Deleting teacher with ID:", teacherId);
+    if (!window.confirm("Are you sure you want to delete this teacher?")) return;
+
+    try {
+        const response = await fetch(`http://localhost:5000/api/teachers/${teacherId}`, {
+            method: "DELETE",
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to delete teacher");
+        }
+
+        alert("Teacher deleted successfully");
+        fetchTeachers(); // Refresh the teacher list after deletion
+    } catch (error) {
+        console.error("Error deleting teacher:", error);
+    }
+};
+
 
   const columns = [
     { key: 'name', label: 'Name' },

@@ -33,7 +33,7 @@ function Navbar() {
           </button>
         )}
       </div>
-      {loggedInUser && (
+      {/* {loggedInUser && (
         <select
           className="bg-white text-black p-2 rounded"
           value={role}
@@ -48,7 +48,7 @@ function Navbar() {
           <option value="Student">Student</option>
           <option value="Admin">Admin</option>
         </select>
-      )}
+      )} */}
     </nav>
   );
 }
