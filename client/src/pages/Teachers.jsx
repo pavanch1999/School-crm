@@ -15,7 +15,7 @@ function Teachers() {
       .catch(err => console.error("Error fetching teachers:", err));
   }, []);
 
-  // Fetch classes
+  
   useEffect(() => {
     fetch("http://localhost:5000/api/classes")
       .then((res) => res.json())
@@ -30,6 +30,17 @@ function Teachers() {
       })
       .catch((err) => console.error("Error fetching classes:", err));
   }, []);
+  // useEffect(() => {
+  //     fetch('http://localhost:5000/api/classes')
+  //       .then(res => res.json())
+  //       .then(data => setClassList(
+  //         data.map((cls) => ({
+  //           value: cls._id,  // Ensure _id is assigned correctly
+  //           label: cls.className || "Unnamed Class"  // ✅ Ensure className is used
+  //         }))
+  //       ))
+  //       .catch(err => console.error("Error fetching classes:", err));
+  //   }, []);
   
 
   const fields = [
@@ -48,8 +59,11 @@ function Teachers() {
   const handleSubmit = (data) => {
     console.log("Submitting Teacher Data:", data);
 
-    // Convert assignedClass to ObjectId format
-    const formattedData = { ...data, assignedClass: data.assignedClass.value };
+    // Convert assignedClass to ObjectId format if it exists
+    const formattedData = { 
+      ...data, 
+      assignedClass: data.assignedClass ? data.assignedClass.value : null 
+    };
 
     fetch('http://localhost:5000/api/teachers', {
       method: 'POST',
